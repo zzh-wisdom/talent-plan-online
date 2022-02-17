@@ -1,0 +1,27 @@
+[package]
+name = "kv_server_week1"
+version = "0.1.0"
+authors = ["Mrzho"]
+edition = "2018"
+build = "build.rs"
+
+[[bin]]
+name = "server"
+path = "src/bin/server_main.rs"
+
+[[bin]]
+name = "client"
+path = "src/bin/client_main.rs"
+
+[[bin]]
+name = "client_test"
+path = "src/bin/client_test_main.rs"
+
+[dependencies]
+protobuf = "2.0.2"
+futures = "0.1.16"
+grpcio = { version = "0.4", default-features = false, features = ["protobuf-codec"] }
+
+[build-dependencies]
+protoc-grpcio = "1.0.1"
+

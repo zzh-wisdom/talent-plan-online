@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package kvserver;
+
+service Kvdb {
+    rpc Get (GetRequest) returns (GetResponse) {}
+    rpc Set (SetRequest) returns (SetResponse) {}
+    rpc Insert (InsertRequest) returns (InsertResponse){}
+    rpc Update (UpdateRequest) returns (UpdateResponse){}
+    rpc Delete (DeleteRequest) returns (DeleteResponse) {}
+    rpc Scan (ScanRequest) returns (ScanResponse) {}
+    rpc ScanAll (ScanAllRequest) returns (ScanAllResponse) {}
+    rpc Clear (ClearRequest) returns (ClearResponse) {}
+}
+
+enum ResponseStatus{
+    kError = 0;
+    kNotFound = 1;
+    kSuccess = 2;
+    kFailed = 3;
+}
+
+message GetRequest {
+    string key = 1;
+}
+message GetResponse {
+    ResponseStatus status = 1;
+    string value = 2;
+}
+
+message SetRequest {
+    string key = 1;
+    string value = 2;
+}
+message SetResponse {
+    ResponseStatus status = 1;
+    string old_value = 2;
+    bool empty = 3;
+}
+
+message InsertRequest {
+    string key = 1;
+    string value = 2;
+}
+message InsertResponse {
+    ResponseStatus status = 1;
+}
+
+message UpdateRequest {
+    string key = 1;
+    string value = 2;
+}
+message UpdateResponse {
+    ResponseStatus status = 1;
+    string old_value = 2;
+}
+
+message DeleteRequest {
+    string key = 2;
+}
+message DeleteResponse {
+    ResponseStatus status = 1;
+    string delete_value = 2;
+}
+
+message ScanRequest {
+    string key_start = 2;   // key_start = key < key_end
+    string key_end = 3;
+}
+message ScanResponse {
+    ResponseStatus status = 1;
+    map<string, string> key_value = 2;
+}
+
+message ScanAllRequest {
+}
+message ScanAllResponse {
+    ResponseStatus status = 1;
+    map<string, string> key_value = 2;
+}
+
+message ClearRequest {
+}
+message ClearResponse {
+    ResponseStatus status = 1;
+}
